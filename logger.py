@@ -6,11 +6,13 @@ from typing import Callable, Optional
 from fastapi import Request, Response
 from fastapi.routing import APIRoute
 
+from config import settings
+
 # 日志配置常量
-LOG_FILE = "logs/app.log"  # 日志文件路径
-MAX_LOG_SIZE = 10 * 1024 * 1024  # 单个日志文件最大Size: 10MB
-BACKUP_COUNT = 5  # 日志文件备份数量
-LOG_LEVEL = logging.INFO  # 日志级别
+LOG_FILE = settings.LOG_FILE
+MAX_LOG_SIZE = settings.LOG_MAX_SIZE
+BACKUP_COUNT = settings.LOG_BACKUP_COUNT
+LOG_LEVEL = getattr(logging, settings.LOG_LEVEL, logging.INFO)
 LOG_FORMAT = (
     "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(funcName)s - %(message)s"
 )  # 日志格式

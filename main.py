@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 import uvicorn
-from utils.logger import logger, LoggingRoute
+from logger import LoggingRoute
+from config import settings
 
-app = FastAPI()
+app = FastAPI(
+    title=settings.APP_NAME,
+    debug=settings.DEBUG
+)
 # 全局应用自定义日志路由
 app.router.route_class = LoggingRoute
 
@@ -25,4 +29,9 @@ async def say_hello(name: str):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=7490)
+    uvicorn.run(
+        app,
+        host=settings.HOST,
+        port=settings.PORT,
+        log_level="info" if settings.DEBUG else "warning"
+    )
